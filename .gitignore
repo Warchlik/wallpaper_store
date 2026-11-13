@@ -1,0 +1,12 @@
+# env i sekrety
+.env
+**/.env
+
+# build
+bin/
+**/bin/
+
+# system
+.DS_Store
+
+STEPS.md

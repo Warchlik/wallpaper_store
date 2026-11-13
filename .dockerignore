@@ -1,0 +1,6 @@
+.git
+**/bin
+**/.env
+**/*.env
+STEPS.md
+docker-compose.yml

@@ -1,0 +1,42 @@
+name: wallpaper-shop
+
+services:
+  gateway:
+    profiles: [all]
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+      target: runtime
+    container_name: gateway
+    restart: unless-stopped
+    env_file:
+      - path: "./services/gateway/.env"
+        required: false
+    expose:
+      - "8080"
+    stop_grace_period: 15s
+    networks:
+      - shop-network
+
+  proxy:
+    profiles: [all]
+    image: caddy:2
+    container_name: proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./services/proxy/Caddyfile:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - gateway
+    networks:
+      - shop-network
+
+volumes:
+  cache_data:
+  db_data:
+  static_data:
+
+networks:
+  shop-network:
+    driver: bridge
